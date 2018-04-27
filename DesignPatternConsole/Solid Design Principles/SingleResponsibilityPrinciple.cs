@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DesignPatternConsole
 {
-    // just stores a couple of journal entries and ways of
+    // just stores a couple of journal entries and ways ofhttps://www.youtube.com/watch?v=N-_gpkeEWZg
     // working with them
     public class Journal
     {
