@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DesignPatternConsole.Builder;
+using DesignPatternConsole.Factory;
 using DesignPatternConsole.Solid_Design_Principles;
 
 namespace DesignPatternConsole
@@ -21,11 +22,49 @@ namespace DesignPatternConsole
             // DependencyInversion();
 
             // ------------- Each Patterns
-            Bulder(); // NOTE: Fluent Builder inheritance with recursive generics is skipped for unnecessary complexity
+            // Builder(); 
+            // NOTE: Fluent Builder inheritance with recursive generics is skipped for unnecessary complexity
+            // FacadeBuilder();
+            // ExerciseBuilder();
+
+            // ------------- Factory Patterns
+            CreationalFactory();
+        }
+
+        private static void CreationalFactory()
+        {
+            // without factory
+            // var p1 = new Point(2, 3, CoordinateSystem.Cartesian);
+            var origin = Point.Origin2;
+
+            var p1 = Point.Factory.NewCartesianPoint(1, 2);
+            var p2 = Point.Factory.NewPolarPoint(3, 9);
 
         }
 
-        private static void Bulder()
+        private static void ExerciseBuilder()
+        {
+            var cb = new CodeBuilder("Person").AddField("Name", "string").AddField("Age", "int");
+            Console.WriteLine(cb.ToString());
+        }
+
+        private static void FacadeBuilder()
+        {
+            var pb = new PersonBuilder();
+            Builder.Person person = pb
+                .Lives
+                    .At("123 London Road")
+                    .In("London")
+                    .WithPostcode("SW12BC")
+                .Works
+                    .At("Fabrikam")
+                    .AsA("Engineer")
+                    .Earning(123000);
+
+            Console.WriteLine(person);
+        }
+
+        private static void Builder()
         {
             // ------- without builder pattern
             // if you want to build a simple HTML paragraph using StringBuilder
@@ -64,9 +103,9 @@ namespace DesignPatternConsole
         private static void DependencyInversion()
         {
             // presume: we have following data (We just initialized for example
-            var parent = new Person { Name = "John" };
-            var child1 = new Person { Name = "Chris" };
-            var child2 = new Person { Name = "Matt" };
+            var parent = new DesignPatternConsole.Solid_Design_Principles.Person { Name = "John" };
+            var child1 = new DesignPatternConsole.Solid_Design_Principles.Person { Name = "Chris" };
+            var child2 = new DesignPatternConsole.Solid_Design_Principles.Person { Name = "Matt" };
 
             // low-level module
             var relationships = new Relationships();
