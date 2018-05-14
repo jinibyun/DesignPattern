@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DesignPatternConsole.Builder;
 using DesignPatternConsole.Factory;
+using DesignPatternConsole.Prototype;
 using DesignPatternConsole.Solid_Design_Principles;
 
 namespace DesignPatternConsole
@@ -28,17 +29,113 @@ namespace DesignPatternConsole
             // ExerciseBuilder();
 
             // ------------- Factory Patterns
-            CreationalFactory();
+            // CreationalFactory();
+            // AbstractFactory();
+            // ExerciseFactory();
+
+            // ------------- Prototype Pattern
+            // ICloneableIsBad(); // do not use this
+            // CopyConstructor();
+            // ThroughSerialization(); // can cover disadvantate of copy constructor
+            ExercisePrototype();
+
+
+        }
+
+        private static void ExercisePrototype()
+        {
+            var line1 = new Line
+            {
+                Start = new Prototype.Point { X = 3, Y = 3 },
+                End = new Prototype.Point { X = 10, Y = 10 }
+            };
+
+            var line2 = line1.DeepCopy();
+            line1.Start.X = line1.End.X = line1.Start.Y = line1.End.Y = 0;
+
+            Console.WriteLine(line2.Start.X);
+            Console.WriteLine(line2.Start.Y);
+            Console.WriteLine(line2.End.X);
+            Console.WriteLine(line2.End.Y);
+        }
+
+        private static void ThroughSerialization()
+        {
+            Foo foo = new Foo { Stuff = 42, Whatever = "abc", SomeProperty = new SubFoo {  someProperty2 = new SubFoo2 { someProperty = "11111" } } };
+
+            //Foo foo2 = foo.DeepCopy(); // crashes without [Serializable]
+            Foo foo2 = foo.DeepCopyXml();
+
+            foo2.Whatever = "xyz";
+            foo2.SomeProperty.someProperty2.someProperty = "22222";
+            Console.WriteLine(foo);
+            Console.WriteLine(foo2);
+        }
+
+        private static void CopyConstructor()
+        {
+            var john = new Employee2("John", new Address2("123 London Road", "London", "UK"));
+
+            //var chris = john;
+            var chris = new Employee2(john);
+
+            // NOTE: we can use interface (with this conceopt: copy contructor, but caveat of this is to let all classess should implment to achive "deep copy"
+
+            chris.Name = "Chris";            
+            Console.WriteLine(john);
+            Console.WriteLine(chris);
+        }
+
+        private static void ICloneableIsBad()
+        {
+            var john = new DesignPatternConsole.Prototype.Person(new[] { "John", "Smith" }, new DesignPatternConsole.Prototype.Address("London Road", 123));
+
+            var jane = (DesignPatternConsole.Prototype.Person)john.Clone();
+            jane.Address.HouseNumber = 321; // oops, John is now at 321
+
+            // this doesn't work
+            // var jane = john;
+
+            // but clone is typically shallow copy
+            jane.Names[0] = "Jane";
+
+            Console.WriteLine(john);
+            Console.WriteLine(jane);
+        }
+
+        private static void ExerciseFactory()
+        {
+            var pf = new PersonFactory();
+
+            var p1 = pf.CreatePerson("Chris");
+            Console.WriteLine(p1.Name);
+            Console.WriteLine(p1.Id);
+
+            var p2 = pf.CreatePerson("Sarah");
+            Console.WriteLine(p2.Id);
+        }
+
+        private static void AbstractFactory()
+        {
+            var machine = new HotDrinkMachine();
+
+            // 1
+            //var drink = machine.MakeDrink(HotDrinkMachine.AvailableDrink.Tea, 300);
+            //drink.Consume();
+
+            // 2. more advance: open close principal
+            IHotDrink drink = machine.MakeDrink();
+            drink.Consume();
         }
 
         private static void CreationalFactory()
         {
             // without factory
             // var p1 = new Point(2, 3, CoordinateSystem.Cartesian);
-            var origin = Point.Origin2;
+            var origin = Factory.Point.Origin2;
 
-            var p1 = Point.Factory.NewCartesianPoint(1, 2);
-            var p2 = Point.Factory.NewPolarPoint(3, 9);
+            var p1 = Factory.Point.Factory.NewCartesianPoint(1, 2);
+            var p2 = Factory.Point.Factory.NewPolarPoint(3, 9);
 
         }
 
