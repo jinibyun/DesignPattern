@@ -48,6 +48,7 @@
     <Compile Include="Builder\builderExcercise.cs" />
     <Compile Include="Builder\builderPattern.cs" />
     <Compile Include="Builder\FacadeBuilderPattern.cs" />
+    <Compile Include="Extensionscs.cs" />
     <Compile Include="Factory\AbstractFactory.cs" />
     <Compile Include="Factory\CreationalFactory.cs" />
     <Compile Include="Factory\ExerciseFactory.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Prototype\ExercisePrototype.cs" />
     <Compile Include="Prototype\IClonableIsBad.cs" />
     <Compile Include="Prototype\ThroughSerialization.cs" />
+    <Compile Include="Singleton\SingletonPattern.cs" />
     <Compile Include="Solid Design Principles\DependencyInversionPrinciple.cs" />
     <Compile Include="Solid Design Principles\InterfaceSegrgationPrincipal.cs" />
     <Compile Include="Solid Design Principles\LiskovSubstitutePrincipal.cs" />
@@ -67,6 +69,10 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="capitals.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

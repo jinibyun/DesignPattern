@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DesignPatternConsole.Builder;
 using DesignPatternConsole.Factory;
 using DesignPatternConsole.Prototype;
+using DesignPatternConsole.Singleton;
 using DesignPatternConsole.Solid_Design_Principles;
 
 namespace DesignPatternConsole
@@ -37,9 +38,24 @@ namespace DesignPatternConsole
             // ICloneableIsBad(); // do not use this
             // CopyConstructor();
             // ThroughSerialization(); // can cover disadvantate of copy constructor
-            ExercisePrototype();
+            // ExercisePrototype();
 
+            // ------------- Singleton Pattern
+            SingletonPattern(); // initialze only once 
+            // NOTE: Go to UnitTest in more detail about how to avoid singleton pattern
 
+        }
+
+        private static void SingletonPattern()
+        {
+            
+            var db = SingletonDatabase.Instance;
+
+            // works just fine while you're working with a real database.
+            var city = "Tokyo";
+            Console.WriteLine($"{city} has population {db.GetPopulation(city)}");
+
+            
         }
 
         private static void ExercisePrototype()
