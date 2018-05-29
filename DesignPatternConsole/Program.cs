@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
+using DesignPatternConsole.Adapter;
+using DesignPatternConsole.Bridge;
 using DesignPatternConsole.Builder;
 using DesignPatternConsole.Factory;
 using DesignPatternConsole.Prototype;
@@ -41,9 +44,50 @@ namespace DesignPatternConsole
             // ExercisePrototype();
 
             // ------------- Singleton Pattern
-            SingletonPattern(); // initialze only once 
+            // SingletonPattern(); // initialze only once 
             // NOTE: Go to UnitTest in more detail about how to avoid singleton pattern
 
+            // ------------- Adapter Pattern
+            // AdapterPattern1();
+
+            // ------------- Bridge Pattern
+            BridgePattern();
+        }
+
+        private static void BridgePattern()
+        {
+            // IRenderer raster = new RasterRenderer();
+            IRenderer vector = new VectorRenderer();
+            var circle = new Circle(vector, 5);
+            circle.Draw();
+            circle.Resize(2);
+            circle.Draw();
+
+            /*
+            // DI using "AutoFac"
+            var cb = new ContainerBuilder();
+            cb.RegisterType<VectorRenderer>().As<IRenderer>();
+            cb.Register((c, p) => new Circle(c.Resolve<IRenderer>(),
+              p.Positional<float>(0)));
+            using (var c = cb.Build())
+            {
+                var circle = c.Resolve<Circle>(
+                  new PositionalParameter(0, 5.0f)
+                );
+                circle.Draw();
+                circle.Resize(2);
+                circle.Draw();
+            }
+            */
+        }
+
+        private static void AdapterPattern1()
+        {
+            ITarget Itarget = new EmployeeAdapter();
+            ThirdPartyBillingSystem client = new ThirdPartyBillingSystem(Itarget);
+            client.ShowEmployeeList();
+
+            Console.ReadKey();
         }
 
         private static void SingletonPattern()
