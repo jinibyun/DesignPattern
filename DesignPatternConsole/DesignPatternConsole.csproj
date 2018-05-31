@@ -54,7 +54,9 @@
     <Compile Include="Builder\builderPattern.cs" />
     <Compile Include="Builder\FacadeBuilderPattern.cs" />
     <Compile Include="Composite\CompositePattern.cs" />
+    <Compile Include="Decorator\DecoratorPattern.cs" />
     <Compile Include="Extensionscs.cs" />
+    <Compile Include="Facade\FacadePattern.cs" />
     <Compile Include="Factory\AbstractFactory.cs" />
     <Compile Include="Factory\CreationalFactory.cs" />
     <Compile Include="Factory\ExerciseFactory.cs" />

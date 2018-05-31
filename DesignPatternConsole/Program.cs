@@ -9,6 +9,8 @@ using DesignPatternConsole.Adapter;
 using DesignPatternConsole.Bridge;
 using DesignPatternConsole.Builder;
 using DesignPatternConsole.Composite;
+using DesignPatternConsole.Decorator;
+using DesignPatternConsole.Facade;
 using DesignPatternConsole.Factory;
 using DesignPatternConsole.Prototype;
 using DesignPatternConsole.Singleton;
@@ -55,7 +57,35 @@ namespace DesignPatternConsole
             // BridgePattern();
 
             // ------------- Composite Pattern
-            CompositePattern();            
+            // CompositePattern();            
+
+            // ------------- Decorator Pattern
+            // DecoraterPattern();
+
+            // ------------- Facade Pattern
+            FacadePattern();
+        }
+
+        private static void FacadePattern()
+        {
+            CarFacade facade = new CarFacade();
+
+            facade.CreateCompleteCar();
+        }
+
+        private static void DecoraterPattern()
+        {
+            // Basic vehicle
+            HondaCity car = new HondaCity();
+
+            Console.WriteLine("Honda City base price are : {0}", car.Price);
+
+            // Special offer
+            SpecialOffer offer = new SpecialOffer(car);
+            offer.DiscountPercentage = 25;
+            offer.Offer = "25 % discount";
+
+            Console.WriteLine("{1} @ Diwali Special Offer and price are : {0} ", offer.Price, offer.Offer);
         }
 
         private static void CompositePattern()
