@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,17 @@ using Autofac;
 using DesignPatternConsole.Adapter;
 using DesignPatternConsole.Bridge;
 using DesignPatternConsole.Builder;
+using DesignPatternConsole.ChainOfResponsibility;
+using DesignPatternConsole.Command;
 using DesignPatternConsole.Composite;
 using DesignPatternConsole.Decorator;
 using DesignPatternConsole.Facade;
 using DesignPatternConsole.Factory;
+using DesignPatternConsole.Flyweight;
+using DesignPatternConsole.Iterator;
+using DesignPatternConsole.Observer;
 using DesignPatternConsole.Prototype;
+using DesignPatternConsole.Proxy;
 using DesignPatternConsole.Singleton;
 using DesignPatternConsole.Solid_Design_Principles;
 
@@ -63,7 +70,153 @@ namespace DesignPatternConsole
             // DecoraterPattern();
 
             // ------------- Facade Pattern
-            FacadePattern();
+            // FacadePattern();
+
+            // ------------- Proxy Pattern
+            // ProxyPattern();
+
+            // ------------  Flyweight Pattern
+            // FlyweightPattern();
+
+            // ------------- Command Pattern
+            // CommandPattern();
+
+            // ------------- ChainOfResposibility
+            // ChainOfResponsibilityPattern();
+
+            // ------------- Iterator Pattern
+            // IteratorPattern();
+
+            // ------------- Observer Pattern
+            // ObserverPattern();
+            ObserverPattern2();
+            
+        }
+
+        private static void ObserverPattern2()
+        {
+            Market market = new Market();
+            //      market.PriceAdded += (sender, eventArgs) =>
+            //      {
+            //        Console.WriteLine($"Added price {eventArgs.Price}");
+            //      };
+            //      market.AddPrice(123);
+            market.Prices.ListChanged += (sender, eventArgs) => // Subscribe
+            {
+                if (eventArgs.ListChangedType == ListChangedType.ItemAdded)
+                {
+                    Console.WriteLine($"Added price {((BindingList<float>)sender)[eventArgs.NewIndex]}");
+                }
+            };
+            market.AddPrice(123);
+            // 1) How do we know when a new item becomes available?
+
+            // 2) how do we know when the market is done supplying items?
+            // maybe you are trading a futures contract that expired and there will be no more prices
+
+            // 3) What happens if the market feed is broken?
+        }
+
+        private static void ObserverPattern()
+        {
+            var person = new DesignPatternConsole.Observer.Person();
+
+            person.FallsIll += CallDoctor;
+
+            person.CatchACold();
+        }
+
+        private static void CallDoctor(object sender, FallsIllEventArgs eventArgs)
+        {
+            Console.WriteLine($"A doctor has been called to {eventArgs.Address}");
+        }
+
+        private static void IteratorPattern()
+        {
+            ConcreteAggregate aggr = new ConcreteAggregate();
+            aggr.Add("One");
+            aggr.Add("Two");
+            aggr.Add("Three");
+            aggr.Add("Four");
+            aggr.Add("Five");
+
+            DesignPatternConsole.Iterator.Iterator iterator = aggr.CreateIterator();
+            while (iterator.Next())
+            {
+                string item = (string)iterator.Current;
+                Console.WriteLine(item);
+            }
+        }
+
+        private static void FlyweightPattern()
+        {
+            ShapeObjectFactory sof = new ShapeObjectFactory();
+
+            IShape shape = sof.GetShape("RectangleShape");
+            shape.Print();
+            shape = sof.GetShape("RectangleShape");
+            shape.Print();
+            shape = sof.GetShape("RectangleShape");
+            shape.Print();
+
+            shape = sof.GetShape("CircleShape");
+            shape.Print();
+            shape = sof.GetShape("CircleShape");
+            shape.Print();
+            shape = sof.GetShape("CircleShape");
+            shape.Print();
+
+            int NumObjs = sof.TotalObjectsCreated;
+            Console.WriteLine("\nTotal No of Objects created = {0}", NumObjs);
+        }
+
+        private static void ProxyPattern()
+        {
+            ICar car = new CarProxy(new Driver(12)); // 22
+            car.Drive();
+        }
+
+        private static void ChainOfResponsibilityPattern()
+        {
+            // Setup Chain of Responsibility
+            Approver rohit = new Clerk();
+            Approver rahul = new AssistantManager();
+            Approver manoj = new Manager();
+
+            rohit.Successor = rahul;
+            rahul.Successor = manoj;
+
+            // Generate and process loan requests
+            var loan = new Loan { Number = 2034, Amount = 24000.00, Purpose = "Laptop Loan" };
+            rohit.ProcessRequest(loan);
+
+            loan = new Loan { Number = 2035, Amount = 42000.10, Purpose = "Bike Loan" };
+            rohit.ProcessRequest(loan);
+
+            loan = new Loan { Number = 2036, Amount = 156200.00, Purpose = "House Loan" };
+            rohit.ProcessRequest(loan);
+        }
+
+        private static void CommandPattern()
+        {
+            var ba = new BankAccount();
+            var commands = new List<BankAccountCommand>
+            {
+                new BankAccountCommand(ba, BankAccountCommand.Action.Deposit, 100),
+                new BankAccountCommand(ba, BankAccountCommand.Action.Withdraw, 1000)
+            };
+
+            Console.WriteLine(ba);
+
+            foreach (var c in commands)
+                c.Call();
+
+            Console.WriteLine(ba);
+
+            foreach (var c in Enumerable.Reverse(commands))
+                c.Undo();
+
+            Console.WriteLine(ba);
         }
 
         private static void FacadePattern()
@@ -166,14 +319,14 @@ namespace DesignPatternConsole
 
         private static void SingletonPattern()
         {
-            
+
             var db = SingletonDatabase.Instance;
 
             // works just fine while you're working with a real database.
             var city = "Tokyo";
             Console.WriteLine($"{city} has population {db.GetPopulation(city)}");
 
-            
+
         }
 
         private static void ExercisePrototype()
@@ -195,7 +348,7 @@ namespace DesignPatternConsole
 
         private static void ThroughSerialization()
         {
-            Foo foo = new Foo { Stuff = 42, Whatever = "abc", SomeProperty = new SubFoo {  someProperty2 = new SubFoo2 { someProperty = "11111" } } };
+            Foo foo = new Foo { Stuff = 42, Whatever = "abc", SomeProperty = new SubFoo { someProperty2 = new SubFoo2 { someProperty = "11111" } } };
 
             //Foo foo2 = foo.DeepCopy(); // crashes without [Serializable]
             Foo foo2 = foo.DeepCopyXml();
@@ -215,7 +368,7 @@ namespace DesignPatternConsole
 
             // NOTE: we can use interface (with this conceopt: copy contructor, but caveat of this is to let all classess should implment to achive "deep copy"
 
-            chris.Name = "Chris";            
+            chris.Name = "Chris";
             Console.WriteLine(john);
             Console.WriteLine(chris);
         }

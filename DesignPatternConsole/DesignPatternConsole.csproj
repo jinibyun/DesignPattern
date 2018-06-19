@@ -53,6 +53,8 @@
     <Compile Include="Builder\builderExcercise.cs" />
     <Compile Include="Builder\builderPattern.cs" />
     <Compile Include="Builder\FacadeBuilderPattern.cs" />
+    <Compile Include="ChainOfResponsibility\ChainOfResponsibilityPattern.cs" />
+    <Compile Include="Command\CommandPattern.cs" />
     <Compile Include="Composite\CompositePattern.cs" />
     <Compile Include="Decorator\DecoratorPattern.cs" />
     <Compile Include="Extensionscs.cs" />
@@ -60,12 +62,17 @@
     <Compile Include="Factory\AbstractFactory.cs" />
     <Compile Include="Factory\CreationalFactory.cs" />
     <Compile Include="Factory\ExerciseFactory.cs" />
+    <Compile Include="Flyweight\FlyweightPattern.cs" />
+    <Compile Include="Iterator\IteratorPattern.cs" />
+    <Compile Include="Observer\ObserverPattern.cs" />
+    <Compile Include="Observer\ObserverPattern2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Prototype\CopyConstructor.cs" />
     <Compile Include="Prototype\ExercisePrototype.cs" />
     <Compile Include="Prototype\IClonableIsBad.cs" />
     <Compile Include="Prototype\ThroughSerialization.cs" />
+    <Compile Include="Proxy\ProxyPattern.cs" />
     <Compile Include="Singleton\SingletonPattern.cs" />
     <Compile Include="Solid Design Principles\DependencyInversionPrinciple.cs" />
     <Compile Include="Solid Design Principles\InterfaceSegrgationPrincipal.cs" />
