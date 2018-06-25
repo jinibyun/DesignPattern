@@ -89,9 +89,12 @@ namespace DesignPatternConsole
 
             // ------------- Observer Pattern
             // ObserverPattern();
-            ObserverPattern2();
-            
+            // ObserverPattern2();
+
+
+
         }
+
 
         private static void ObserverPattern2()
         {
